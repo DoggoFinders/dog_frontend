@@ -7,7 +7,6 @@ const LostDogs = (props) => {
   return (
     <>
       <div>
-        <p>Lost dogs page</p>
         <DisplayMapClass />
       </div>
       <BottomNav />

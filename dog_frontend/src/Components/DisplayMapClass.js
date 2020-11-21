@@ -41,6 +41,45 @@ export class DisplayMapClass extends React.Component {
     var ui = H.ui.UI.createDefault(map, defaultLayers);
  
     this.setState({ map });
+
+    // Create an icon, an object holding the latitude and longitude, and a marker:
+    //var icon = new H.map.Icon('./testdog.jpg'),
+    var coords = {center: {lat: 46.248929366435426, lng: 6.024057144759881},
+                  pos1: {lat: 46.24337946807697, lng: 6.013671631566258},
+                  pos2: {lat: 46.24332010784052, lng: 6.023670906665904}
+                  }
+
+    for (var point in coords) {
+      if(point === 'center') {
+        map.setCenter(coords[point]);
+      } else {
+        map.addObject(new H.map.Marker(coords[point]));
+      }
+      // console.log(coords[point])
+    }
+
+    map.setZoom(14);
+
+    // for (var marker in markers){
+    //   map.addObject(marker);
+    // }
+
+    // marker = new H.map.Marker(coords);
+
+    // // Add the marker to the map and center the map at the location of the marker:
+    // map.setZoom(8);
+    // map.addObject(marker);
+
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(function(position) {
+    //     console.log("Latitude is :", position.coords.latitude);
+    //     console.log("Longitude is :", position.coords.longitude);
+    //     var centerCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+    //     map.setCenter(centerCoords);
+    //   });
+    // } else {
+    //   map.setCenter(coords);
+    // }
   }
 
   componentWillUnmount() {
