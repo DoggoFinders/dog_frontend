@@ -29,21 +29,15 @@ class Image_Upload extends React.Component {
  
   }
  
-  submit = () => {
- 
+  submit = async () => {
     var fd = new FormData();
- 
-    fd.append('file', this.state.selectedFile);
- 
-    var request = new XMLHttpRequest();
- 
-    request.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        alert('Uploaded!');
-      }
-    };
-    request.open("POST", "https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload", true);
-    request.send(fd);
+    fd.append('image', this.state.selectedFile);
+    const result = await fetch("https://c11c52db807a.ngrok.io/api/infer", {
+      method: "POST",
+      body: fd,
+    });
+    const data = await result.json();
+    console.log(data);
   }
  
   render() {
