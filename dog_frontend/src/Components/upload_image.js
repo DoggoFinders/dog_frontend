@@ -1,10 +1,9 @@
 import React from 'react';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 // import 'antd-mobile/dist/antd-mobile.css';  // or 'antd-mobile/dist/antd-mobile.less'
-import { Layout } from 'antd';
+// import { Layout } from 'antd';
 
-const { Header, Footer, Sider, Content } = Layout;
- 
+
 class Image_Upload extends React.Component {
   
   state =  {
