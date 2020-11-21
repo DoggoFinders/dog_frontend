@@ -32,6 +32,9 @@ const BottomNav = (props) => {
           case "lost":
             setTimeout(() => history.push("/lost"), 250);
             break;
+          case "nearby":
+            setTimeout(() => history.push("/nearby"), 250);
+            break;
           default:
             break;
         }
@@ -48,7 +51,7 @@ const BottomNav = (props) => {
       />
       <BottomNavigationAction
         value="nearby"
-        label="Nearby"
+        label="Dogs Nearby"
         icon={<LocationOnIcon />}
       />
     </BottomNavigation>
