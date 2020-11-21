@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
+  Avatar,
+  Backdrop,
   Button,
+  CircularProgress,
   IconButton,
   makeStyles,
   Toolbar,
   Typography,
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import ApiCaller from "../api/ApiCaller";
+import ApiCaller, { useLoggedIn } from "../api/ApiCaller";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+  small: {
+    display: "inline-block",
+    marginRight: theme.spacing(2),
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -26,23 +37,16 @@ const useStyles = makeStyles((theme) => ({
 const TopBar = (props) => {
   const classes = useStyles(props);
 
-  const [email, setEmail] = useState(undefined);
+  const [bdropOpen, setBdropOpen] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      const resp = await ApiCaller.isLoggedIn();
-      if (resp.ok) {
-        const data = await resp.json();
-        setEmail(data.email);
-      }
-    };
-    load();
-  }, []);
+  const { login, setLogin } = useLoggedIn();
 
   const logout = async () => {
+    setBdropOpen(true);
     await ApiCaller.logout();
-    setEmail(undefined);
-  }
+    setLogin(undefined);
+    setBdropOpen(false);
+  };
 
   return (
     <AppBar position="static">
@@ -55,15 +59,27 @@ const TopBar = (props) => {
         >
           <Menu />
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          DoggoFinder
+        <Avatar className={classes.small} alt="Doggo" src="/static/doge.png" />
+        <Typography variant="h5" className={classes.title}>
+          Finder
         </Typography>
-        {!email && (
-          <Button color="inherit" href="http://localhost:5001/auth/login">
+        {!login && (
+          <Button
+            color="inherit"
+            onClick={() => setBdropOpen(true)}
+            href="http://localhost:5001/auth/login"
+          >
             Login
           </Button>
         )}
-        {email && <Button color="inherit" onClick={logout}>Logout</Button>}
+        {login && (
+          <Button color="inherit" onClick={logout}>
+            Logout
+          </Button>
+        )}
+        <Backdrop className={classes.backdrop} open={bdropOpen}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Toolbar>
     </AppBar>
   );

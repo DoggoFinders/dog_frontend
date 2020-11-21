@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { apiBase } from "../config";
 
 class ApiCaller {
@@ -19,5 +20,25 @@ class ApiCaller {
     });
   }
 }
+const caller = new ApiCaller(apiBase);
 
-export default new ApiCaller(apiBase);
+export const useLoggedIn = () => {
+  const [login, setLogin] = useState(undefined);
+
+  useEffect(() => {
+    if (!login) {
+      caller
+        .isLoggedIn()
+        .then((d) => d.json())
+        .then((d) => setLogin(d))
+        .catch((err) => {
+          console.log(err);
+          setLogin(null);
+        });
+    }
+  }, [login]);
+
+  return { login, setLogin };
+};
+
+export default caller;
