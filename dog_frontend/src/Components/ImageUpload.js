@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 // import { Layout } from 'antd';
 
 
-class Image_Upload extends React.Component {
+class ImageUpload extends React.Component {
   
   state =  {
     selectedFile: null,
@@ -56,4 +56,4 @@ class Image_Upload extends React.Component {
   }
 }
  
-export default Image_Upload;
+export default ImageUpload;
