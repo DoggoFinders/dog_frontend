@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import './App.css';
-import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import React, { Component } from "react";
+import "./App.css";
+import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 // import 'antd-mobile/dist/antd-mobile.css';  // or 'antd-mobile/dist/antd-mobile.less'
-import { Layout } from 'antd';
-import Image_Upload from './Components/upload_image.js';
+import { Layout } from "antd";
+import ImageUpload from "./Components/ImageUpload.js";
 
-const { Header, Footer, Sider, Content } = Layout;
- 
+const { Header, Footer, Content } = Layout;
+
 class App extends Component {
-  render() { 
+  render() {
     return (
       <div className="App">
-      	<Layout>
-	      <Header></Header>
-	      <Content>
-	      	<Image_Upload />
-	      </Content>
-	      <Footer></Footer>
-	    </Layout>
+        <Layout>
+          <Header></Header>
+          <Content>
+            <ImageUpload />
+          </Content>
+          <Footer></Footer>
+        </Layout>
       </div>
     );
   }
 }
- 
+
 export default App;
