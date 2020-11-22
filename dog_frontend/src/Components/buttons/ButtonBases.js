@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonBases({ images }) {
+export default function ButtonBases({ images, onClick }) {
   const classes = useStyles();
 
   return (
@@ -93,6 +93,7 @@ export default function ButtonBases({ images }) {
             style={{
               width: image.width,
             }}
+            onClick={onClick}
           >
             <span
               className={classes.imageSrc}

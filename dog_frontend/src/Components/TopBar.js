@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import ApiCaller, { useLoggedIn } from "../api/ApiCaller";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,4 +88,4 @@ const TopBar = (props) => {
 
 TopBar.propTypes = {};
 
-export default TopBar;
+export default withRouter(TopBar);

@@ -8,28 +8,7 @@ import BottomNav from "../BottomNav";
 import ButtonBases from "../buttons/ButtonBases";
 import { Divider, makeStyles } from "@material-ui/core";
 import LandingCard from "../LandingCard";
-
-const useStyles = makeStyles({
-  copyright: {
-    width: "100%",
-  },
-});
-
-function Copyright() {
-  const styles = useStyles();
-  return (
-    <Typography
-      className={styles.copyright}
-      variant="body2"
-      color="textSecondary"
-      align="center"
-    >
-      {"Copyright © DoggoFinder "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { useHistory, withRouter } from "react-router-dom";
 
 const imagesLost = [
   {
@@ -48,6 +27,8 @@ const imagesPhoto = [
 ];
 
 const Landing = (props) => {
+  const history = useHistory();
+
   return (
     <>
       <Container maxWidth="sm">
@@ -61,10 +42,11 @@ const Landing = (props) => {
           <Divider variant="middle" />
           <LandingCard
             images={imagesPhoto}
+            onClick={() => {
+              setTimeout(() => history.push("/imageUp"), 250);
+            }}
             text="If you encounter any dog that seems like it could have an owner, observe it carefully. If there seems to be nobody present at the time, you can quickly take a photo and we'll try to match it to missing ones in the area!"
           />
-
-          <Copyright />
         </Box>
       </Container>
       <BottomNav />
@@ -74,4 +56,4 @@ const Landing = (props) => {
 
 Landing.propTypes = {};
 
-export default Landing;
+export default withRouter(Landing);

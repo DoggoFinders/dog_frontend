@@ -19,6 +19,13 @@ class ApiCaller {
       credentials: "include",
     });
   }
+
+  async inferBreed(fd) {
+    return fetch(`${this.base}/api/dogs/infer`, {
+      method: "POST",
+      body: fd,
+    });
+  }
 }
 const caller = new ApiCaller(apiBase);
 

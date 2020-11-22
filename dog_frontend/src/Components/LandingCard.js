@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LandingCard = ({ images, text }) => {
+const LandingCard = ({ images, text, onClick }) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <ButtonBases images={images} />
+        <ButtonBases onClick={onClick} images={images} />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {text}
