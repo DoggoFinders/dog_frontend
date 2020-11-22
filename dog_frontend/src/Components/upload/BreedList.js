@@ -23,7 +23,7 @@ function BreedList({ data }) {
   return (
     <List className={classes.root}>
       {data.map((d) => (
-        <ListItem key={d.human_label}>
+        <ListItem button key={d.human_label}>
           <ListItemAvatar>
             <Avatar>
               <ImageIcon />
@@ -31,7 +31,7 @@ function BreedList({ data }) {
           </ListItemAvatar>
           <ListItemText
             primary={d.human_label}
-            secondary={`Confidence: ${d.probability * 100} %`}
+            secondary={`Prob.: ${(d.probability * 100).toFixed(3)}%`}
           />
         </ListItem>
       ))}
