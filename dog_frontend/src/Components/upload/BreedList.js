@@ -58,7 +58,7 @@ function BreedList({ data, onSelectBreed }) {
               </Avatar>
             </ListItemAvatar>
             <ListItemText
-              primary={d.human_label}
+              primary={d.human_label.replace("_", " ").replace("-", " ")}
               secondary={`Prob.: ${(d.probability * 100).toFixed(3)}%`}
             />
           </ListItem>

@@ -46,7 +46,7 @@ const BottomNav = (props) => {
       <BottomNavigationAction value="home" label="Home" icon={<House />} />
       <BottomNavigationAction
         value="lost"
-        label="Lost"
+        label="Sightings"
         icon={<FavoriteIcon />}
       />
       <BottomNavigationAction

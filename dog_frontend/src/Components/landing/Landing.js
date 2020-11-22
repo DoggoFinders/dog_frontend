@@ -37,8 +37,10 @@ const Landing = (props) => {
     <>
       <Container maxWidth="sm">
         <Box my={4}>
+        {!login && <Typography variant="body2">Not logged in! Not able to track your dogs.</Typography>}
           {login && (
             <>
+              <Typography variant="body2">Logged in as: {login}</Typography>
               <LandingCard
                 disabled={!login}
                 images={imagesLost}

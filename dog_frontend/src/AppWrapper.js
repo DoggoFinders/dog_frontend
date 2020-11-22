@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import Landing from "./components/landing/Landing";
 import LostDogs from "./components/lost/LostDogs";
@@ -7,7 +7,7 @@ import TopBar from "./components/TopBar";
 import DogsNearby from "./components/nearby/DogsNearby";
 import ImageUpload from "./components/upload/ImageUpload";
 import { makeStyles, Typography } from "@material-ui/core";
-import ApiCaller from "./api/ApiCaller";
+import ApiCaller, { useLoggedIn } from "./api/ApiCaller";
 
 const useStyles = makeStyles((theme) => ({
   copyright: {
@@ -34,6 +34,7 @@ function Copyright() {
 }
 
 const AppWrapper = (props) => {
+
   const onReportDog = async (dog) => {
     let fd = new FormData();
     Object.keys(dog).forEach((k) => {
@@ -55,6 +56,7 @@ const AppWrapper = (props) => {
     console.log(data);
     console.log(dog);
   };
+
 
   return (
     <div>

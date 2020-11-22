@@ -13,13 +13,14 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { PhotoCamera } from "@material-ui/icons";
+import { CheckCircleOutline, PhotoCamera } from "@material-ui/icons";
 
 import ApiCaller from "../../api/ApiCaller";
 import BreedList from "./BreedList";
 import UploadStepper from "./UploadStepper";
 import BreedRadio from "./BreedRadio";
 import { DisplayMapClass } from "../DisplayMapClass";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   loader: {},
+  toast: {
+    position: "fixed",
+    width: "90%",
+    zIndex: 10,
+    top: "10px",
+  },
 }));
 
 const UploadButtons = ({ onChange }) => {
@@ -105,6 +112,8 @@ const ImageUpload = ({ isOwner, onSubmit }) => {
   const [lat, setLat] = useState(undefined);
   const [details, setDetails] = useState(undefined);
 
+  const [showAlert, setShowAlert] = useState(false);
+
   console.log(formBreed);
   console.log(coatColor);
 
@@ -134,6 +143,10 @@ const ImageUpload = ({ isOwner, onSubmit }) => {
   }, [selectedFile, imagePreviewUrl]);
 
   const submit = () => {
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 2500);
     onSubmit({
       breed: formBreed,
       image: selectedFile,
@@ -141,7 +154,7 @@ const ImageUpload = ({ isOwner, onSubmit }) => {
       details: details,
       latitude: lat,
       longitude: long,
-    })
+    });
   };
 
   const steps = {
@@ -226,6 +239,16 @@ const ImageUpload = ({ isOwner, onSubmit }) => {
 
   return (
     <Container maxWidth="sm">
+      {showAlert && (
+        <Alert
+          iconMapping={{
+            success: <CheckCircleOutline fontSize="inherit" />,
+          }}
+          className={classes.toast}
+        >
+          Your request was submitted!
+        </Alert>
+      )}
       <Box my={4}>
         {!imagePreviewUrl && <UploadButtons onChange={fileChangedHandler} />}
         {imagePreviewUrl && (

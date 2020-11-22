@@ -48,9 +48,10 @@ class ApiCaller {
       }),
       headers: {
         "Content-Type": "application/json",
-      },});
+      },
+    });
   }
-        
+
   async inferBreed(fd) {
     return fetch(`${this.base}/api/dogs/infer`, {
       method: "POST",
@@ -73,15 +74,22 @@ class ApiCaller {
       body: fd,
     });
   }
+
+  async getDogNotifications() {
+    return fetch(`${this.base}/api/dogs/notifications`, {
+      method: "GET",
+      credentials: "include",
+    });
+  }
 }
 const caller = new ApiCaller(apiBase);
 
 export const useLoggedIn = () => {
-  const [login, setLogin] = useState(undefined);
+  const [login, setLogin] = useState("");
 
   const logout = () => {
-    setLogin(null);
-  }
+    setLogin("");
+  };
 
   useEffect(() => {
     if (!login) {
@@ -91,7 +99,7 @@ export const useLoggedIn = () => {
         .then((d) => setLogin(d.email))
         .catch((err) => {
           console.log(err);
-          setLogin(null);
+          setLogin("");
         });
     }
   }, [login]);

@@ -216,7 +216,7 @@ const DogsNearby = (props) => {
             {dogs.map((d) => (
               <ImgMediaCard
                 id={d.id}
-                breed={d.breed}
+                breed={d.breed.replace("_", " ").replace("-", " ")}
                 details={d.details}
                 coat_colour={d.coat_colour}
                 filepath={d.picture}
