@@ -57,18 +57,38 @@ class ApiCaller {
       body: fd,
     });
   }
+
+  async submitLostDog(fd) {
+    return fetch(`${this.base}/api/dogs/lost`, {
+      method: "POST",
+      credentials: "include",
+      body: fd,
+    });
+  }
+
+  async reportDog(fd) {
+    return fetch(`${this.base}/api/dogs/report`, {
+      method: "POST",
+      credentials: "include",
+      body: fd,
+    });
+  }
 }
 const caller = new ApiCaller(apiBase);
 
 export const useLoggedIn = () => {
   const [login, setLogin] = useState(undefined);
 
+  const logout = () => {
+    setLogin(null);
+  }
+
   useEffect(() => {
     if (!login) {
       caller
         .isLoggedIn()
         .then((d) => d.json())
-        .then((d) => setLogin(d))
+        .then((d) => setLogin(d.email))
         .catch((err) => {
           console.log(err);
           setLogin(null);
@@ -76,7 +96,7 @@ export const useLoggedIn = () => {
     }
   }, [login]);
 
-  return { login, setLogin };
+  return { login, logout };
 };
 
 export default caller;

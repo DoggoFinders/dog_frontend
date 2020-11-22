@@ -40,12 +40,13 @@ const TopBar = (props) => {
 
   const [bdropOpen, setBdropOpen] = useState(false);
 
-  const { login, setLogin } = useLoggedIn();
+  const { login, logout: setLogout } = useLoggedIn();
+  console.log(login);
 
   const logout = async () => {
     setBdropOpen(true);
     await ApiCaller.logout();
-    setLogin(undefined);
+    setLogout();
     setBdropOpen(false);
   };
 

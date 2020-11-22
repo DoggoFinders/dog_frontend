@@ -9,6 +9,7 @@ import ButtonBases from "../buttons/ButtonBases";
 import { Divider, makeStyles } from "@material-ui/core";
 import LandingCard from "../LandingCard";
 import { useHistory, withRouter } from "react-router-dom";
+import { useLoggedIn } from "../../api/ApiCaller";
 
 const imagesLost = [
   {
@@ -29,21 +30,32 @@ const imagesPhoto = [
 const Landing = (props) => {
   const history = useHistory();
 
+  const { login } = useLoggedIn();
+  console.log("login: ", login);
+
   return (
     <>
       <Container maxWidth="sm">
         <Box my={4}>
-          <LandingCard
-            images={imagesLost}
-            text="Thousands of dogs are reported by caring people every day, submit
-            information about your lost dog and we guarantee he will be found."
-          />
+          {login && (
+            <>
+              <LandingCard
+                disabled={!login}
+                images={imagesLost}
+                onClick={() => {
+                  setTimeout(() => history.push("/reportLost"), 250);
+                }}
+                text="Thousands of dogs are reported by caring people every day, submit
+            information about your lost dog and we guarantee it will be found."
+              />
 
-          <Divider variant="middle" />
+              <Divider variant="middle" />
+            </>
+          )}
           <LandingCard
             images={imagesPhoto}
             onClick={() => {
-              setTimeout(() => history.push("/imageUp"), 250);
+              setTimeout(() => history.push("/report"), 250);
             }}
             text="If you encounter any dog that seems like it could have an owner, observe it carefully. If there seems to be nobody present at the time, you can quickly take a photo and we'll try to match it to missing ones in the area!"
           />

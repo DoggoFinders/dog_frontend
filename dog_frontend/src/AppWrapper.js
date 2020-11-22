@@ -7,6 +7,7 @@ import TopBar from "./components/TopBar";
 import DogsNearby from "./components/nearby/DogsNearby";
 import ImageUpload from "./components/upload/ImageUpload";
 import { makeStyles, Typography } from "@material-ui/core";
+import ApiCaller from "./api/ApiCaller";
 
 const useStyles = makeStyles((theme) => ({
   copyright: {
@@ -33,6 +34,28 @@ function Copyright() {
 }
 
 const AppWrapper = (props) => {
+  const onReportDog = async (dog) => {
+    let fd = new FormData();
+    Object.keys(dog).forEach((k) => {
+      fd.append(k, dog[k]);
+    });
+    const result = await ApiCaller.reportDog(fd);
+    const data = await result.json();
+    console.log(data);
+    console.log(dog);
+  };
+
+  const onReportLost = async (dog) => {
+    let fd = new FormData();
+    Object.keys(dog).forEach((k) => {
+      fd.append(k, dog[k]);
+    });
+    const result = await ApiCaller.submitLostDog(fd);
+    const data = await result.json();
+    console.log(data);
+    console.log(dog);
+  };
+
   return (
     <div>
       <TopBar />
@@ -46,8 +69,11 @@ const AppWrapper = (props) => {
         <Route path="/" exact>
           <Landing />
         </Route>
-        <Route path="/imageUp" exact>
-          <ImageUpload />
+        <Route path="/report" exact>
+          <ImageUpload isOwner={false} onSubmit={onReportDog} />
+        </Route>
+        <Route path="/reportLost" exact>
+          <ImageUpload isOwner={true} onSubmit={onReportLost} />
         </Route>
       </Switch>
       <BottomNav />

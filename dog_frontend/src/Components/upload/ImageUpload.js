@@ -10,12 +10,16 @@ import {
   IconButton,
   makeStyles,
   Paper,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 
 import ApiCaller from "../../api/ApiCaller";
 import BreedList from "./BreedList";
+import UploadStepper from "./UploadStepper";
+import BreedRadio from "./BreedRadio";
+import { DisplayMapClass } from "../DisplayMapClass";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     height: 140,
     width: 100,
+  },
+  dogSelection: {
+    width: 175,
+    justifyContent: "center",
   },
   control: {
     padding: theme.spacing(2),
@@ -81,13 +89,24 @@ const UploadButtons = ({ onChange }) => {
   );
 };
 
-const ImageUpload = () => {
+const ImageUpload = ({ isOwner, onSubmit }) => {
   const classes = useStyles();
   const [selectedFile, setSelectedFile] = useState(undefined);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(undefined);
   const [breedData, setBreedData] = useState(undefined);
 
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  // form data
+  const [formBreed, setFormBreed] = useState(undefined);
+  const [coatColor, setCoatColor] = useState(undefined);
+  const [long, setLong] = useState(undefined);
+  const [lat, setLat] = useState(undefined);
+  const [details, setDetails] = useState(undefined);
+
+  console.log(formBreed);
+  console.log(coatColor);
 
   const fileChangedHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -114,32 +133,113 @@ const ImageUpload = () => {
     }
   }, [selectedFile, imagePreviewUrl]);
 
-  let imgPreview = (
-    <Typography variant="body2">Please select an image for preview</Typography>
-  );
-  if (imagePreviewUrl) {
-    imgPreview = (
-      <Grid container className={classes.root} spacing={2}>
-        <Grid item xs={6} md={4}>
-          <img src={imagePreviewUrl} alt="icon" width="200" />
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography variant="h5" className={classes.title}>
-            Inferred breeds
+  const submit = () => {
+    onSubmit({
+      breed: formBreed,
+      image: selectedFile,
+      coat_colour: coatColor,
+      details: details,
+      latitude: lat,
+      longitude: long,
+    })
+  };
+
+  const steps = {
+    1: (
+      <>
+        {!imagePreviewUrl && (
+          <Typography variant="body2">
+            Please select an image or take a photo directly.
           </Typography>
-          {loading && <CircularProgress className={classes.loader} />}
-          {breedData && <BreedList data={breedData} />}
+        )}
+        {imagePreviewUrl && (
+          <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={12} md={4}>
+              <img
+                src={imagePreviewUrl}
+                alt="dog"
+                className={classes.dogSelection}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="h5" className={classes.title}>
+                Is one of these the right breed?
+              </Typography>
+              {loading && <CircularProgress className={classes.loader} />}
+              {breedData && (
+                <BreedList data={breedData} onSelectBreed={setFormBreed} />
+              )}
+            </Grid>
+          </Grid>
+        )}
+      </>
+    ),
+    2: (
+      <>
+        <Grid container className={classes.root} spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h6" className={classes.title}>
+              Your location
+            </Typography>
+            <DisplayMapClass
+              onLocationChange={(l) => {
+                setLat(l.lat);
+                setLong(l.lng);
+              }}
+              height="250px"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" className={classes.title}>
+              Choose a color
+            </Typography>
+            <BreedRadio onChange={setCoatColor} />
+          </Grid>
+        </Grid>
+      </>
+    ),
+    3: (
+      <Grid container className={classes.root} spacing={2}>
+        <Grid item xs={12}>
+          {isOwner && (
+            <>
+              <Typography variant="h6" className={classes.title}>
+                Extra details (e.g. name, accessories)
+              </Typography>
+              <form className={classes.textRoot} noValidate autoComplete="off">
+                <TextField
+                  label="Your input"
+                  onChange={(e) => setDetails(e.target.value)}
+                />
+              </form>
+            </>
+          )}
+          {!isOwner && (
+            <Typography variant="h6" className={classes.title}>
+              We're done! Click the finish button to submit.
+            </Typography>
+          )}
         </Grid>
       </Grid>
-    );
-  }
+    ),
+  };
 
   return (
     <Container maxWidth="sm">
       <Box my={4}>
-        <UploadButtons onChange={fileChangedHandler} />
+        {!imagePreviewUrl && <UploadButtons onChange={fileChangedHandler} />}
+        {imagePreviewUrl && (
+          <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={12} md={4}>
+              <UploadStepper
+                onComplete={submit}
+                onStep={() => setStep(step + 1)}
+              />
+            </Grid>
+          </Grid>
+        )}
         <Divider variant="fullWidth" />
-        {imgPreview}
+        {steps[step]}
       </Box>
     </Container>
   );

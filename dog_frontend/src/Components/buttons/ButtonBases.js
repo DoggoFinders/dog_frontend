@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonBases({ images, onClick }) {
+export default function ButtonBases({ images, onClick, disabled }) {
   const classes = useStyles();
 
   return (
@@ -86,6 +86,7 @@ export default function ButtonBases({ images, onClick }) {
       {images.map((image) => (
         <>
           <ButtonBase
+            disabled={disabled}
             focusRipple
             key={image.title}
             className={classes.image}
