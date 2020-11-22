@@ -14,7 +14,7 @@ import Grid from "@material-ui/core/Grid";
 import { PrettoSlider } from "./slider";
 import ApiCaller from "../../api/ApiCaller";
 import Alert from "@material-ui/lab/Alert";
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     width: "90%",
     zIndex: 10,
-    top: "10px"
+    top: "10px",
   },
 }));
 
@@ -53,6 +53,7 @@ const reportDog = (id) => {};
 const ImgMediaCard = ({
   classes,
   id,
+  details,
   breed,
   coat_colour,
   filepath,
@@ -66,7 +67,8 @@ const ImgMediaCard = ({
         <Alert
           iconMapping={{
             success: <CheckCircleOutlineIcon fontSize="inherit" />,
-          }} className={classes.toast}
+          }}
+          className={classes.toast}
         >
           Your request was submitted! Thank you for your help!
         </Alert>
@@ -93,7 +95,18 @@ const ImgMediaCard = ({
                     color="textSecondary"
                     component="p"
                   >
-                    Coat colour: {coat_colour} {id}
+                    Coat colour: {coat_colour}
+                  </Typography>
+                </>
+              )}
+              {details && (
+                <>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {details}
                   </Typography>
                 </>
               )}
@@ -114,7 +127,7 @@ const ImgMediaCard = ({
                 );
                 console.log("Reported");
                 setTimeout(() => {
-                 setShowAlert(false);
+                  setShowAlert(false);
                 }, 1000);
               }}
             >
@@ -204,6 +217,7 @@ const DogsNearby = (props) => {
               <ImgMediaCard
                 id={d.id}
                 breed={d.breed}
+                details={d.details}
                 coat_colour={d.coat_colour}
                 filepath={d.picture}
                 location={location}
