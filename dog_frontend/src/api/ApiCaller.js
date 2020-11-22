@@ -1,4 +1,5 @@
 import { QueryBuilder } from "@material-ui/icons";
+import { useEffect, useState } from "react";
 import { apiBase } from "../config";
 
 class ApiCaller {
@@ -47,9 +48,35 @@ class ApiCaller {
       }),
       headers: {
         "Content-Type": "application/json",
-      },
+      },});
+  }
+        
+  async inferBreed(fd) {
+    return fetch(`${this.base}/api/dogs/infer`, {
+      method: "POST",
+      body: fd,
     });
   }
 }
+const caller = new ApiCaller(apiBase);
 
-export default new ApiCaller(apiBase);
+export const useLoggedIn = () => {
+  const [login, setLogin] = useState(undefined);
+
+  useEffect(() => {
+    if (!login) {
+      caller
+        .isLoggedIn()
+        .then((d) => d.json())
+        .then((d) => setLogin(d))
+        .catch((err) => {
+          console.log(err);
+          setLogin(null);
+        });
+    }
+  }, [login]);
+
+  return { login, setLogin };
+};
+
+export default caller;
