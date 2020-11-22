@@ -13,6 +13,7 @@ import {
 import { Menu } from "@material-ui/icons";
 import ApiCaller, { useLoggedIn } from "../api/ApiCaller";
 import { withRouter } from "react-router-dom";
+import { apiBase } from "../config";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +70,7 @@ const TopBar = (props) => {
           <Button
             color="inherit"
             onClick={() => setBdropOpen(true)}
-            href="http://localhost:5001/auth/login"
+            href={`${apiBase}/auth/login`}
           >
             Login
           </Button>
