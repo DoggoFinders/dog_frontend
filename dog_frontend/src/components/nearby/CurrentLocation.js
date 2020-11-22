@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const useCurrentLocation = (options = {}) => {
   // store location in state
-  const [location, setLocation] = useState(undefined);
+  const [location, setLocation] = useState({ latitude: 54, longitude: 6 });
   const [error, setError] = useState(undefined);
 
   // Success handler for geolocation's `getCurrentPosition` method
