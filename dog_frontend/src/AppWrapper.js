@@ -43,7 +43,6 @@ const AppWrapper = (props) => {
         <Route path="/nearby">
           <DogsNearby />
         </Route>
-        <Route path="/">
         <Route path="/" exact>
           <Landing />
         </Route>
