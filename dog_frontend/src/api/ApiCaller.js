@@ -1,3 +1,4 @@
+import { QueryBuilder } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { apiBase } from "../config";
 
@@ -20,6 +21,36 @@ class ApiCaller {
     });
   }
 
+  async all_lost_dogs_nearby(latitude, longitude, max_distance_in_km) {
+    // new QueryBuilder();
+    return fetch(
+      `${this.base}/api/dogs/lost/all?` +
+        new URLSearchParams({
+          latitude,
+          longitude,
+          max_distance_in_km,
+        }).toString(),
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+  }
+
+  async found_lost_dog(latitude, longitude, lost_dog_id) {
+    return fetch(`${this.base}/api/dogs/found`, {
+      method: "POST",
+      // credentials: "include",
+      body: JSON.stringify({
+        latitude: latitude,
+        longitude: longitude,
+        dog_id: lost_dog_id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },});
+  }
+        
   async inferBreed(fd) {
     return fetch(`${this.base}/api/dogs/infer`, {
       method: "POST",

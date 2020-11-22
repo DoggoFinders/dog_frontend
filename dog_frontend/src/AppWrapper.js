@@ -4,6 +4,7 @@ import Landing from "./components/landing/Landing";
 import LostDogs from "./components/lost/LostDogs";
 import BottomNav from "./components/BottomNav";
 import TopBar from "./components/TopBar";
+import DogsNearby from "./components/nearby/DogsNearby";
 import ImageUpload from "./components/upload/ImageUpload";
 import { makeStyles, Typography } from "@material-ui/core";
 
@@ -39,6 +40,10 @@ const AppWrapper = (props) => {
         <Route path="/lost" exact>
           <LostDogs />
         </Route>
+        <Route path="/nearby">
+          <DogsNearby />
+        </Route>
+        <Route path="/">
         <Route path="/" exact>
           <Landing />
         </Route>
